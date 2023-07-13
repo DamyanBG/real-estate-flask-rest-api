@@ -2,9 +2,9 @@ import enum
 
 
 class RoleType(enum.Enum):
-    user = "admin"
+    user = "user"
     seller = "seller"
-    admin = "user"
+    admin = "admin"
 
 
 class MeetingStatusType(enum.Enum):

@@ -37,8 +37,8 @@ class BaseLandSchema(Schema):
 
 class BaseMeetingSchema(Schema):
     date = fields.Date(required=True)
-    start_time = fields.DateTime(required=True)
-    end_time = fields.DateTime(required=True)
+    start_time = fields.Time(required=True)
+    end_time = fields.Time(required=True)
     invitor_id = fields.Integer(required=True)
     invited_id = fields.Integer(required=True)
     status = fields.Enum(MeetingStatusType)

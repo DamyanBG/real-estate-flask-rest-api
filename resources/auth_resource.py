@@ -69,3 +69,9 @@ class UserInfo(Resource):
         del current_user.password
         user_schema = UserResponseSchema()
         return user_schema.dump(current_user)
+
+
+class Logout(Resource):
+    @auth.login_required
+    def get(self):
+        return 200

@@ -5,12 +5,15 @@ from resources.auth_resource import (
     LoginSeller,
     LoginAdmin,
     Login,
+    Logout,
 )
 from resources.home_resource import HomeResource, GetHomeResource, HomesResource, HomeDetailsResource
 from resources.visitation_resource import VisitationResource
 from resources.land_resource import LandResource, LandsResource, LandDetalisResource
+from resources.meeting_resource import MeetingResource
 
 routes = (
+    (Logout, "/logout"),
     (RegisterUser, "/user/register-user"),
     (LoginUser, "/user/login-user"),
     (RegisterSeller, "/user/register-seller"),
@@ -25,4 +28,5 @@ routes = (
     (LandResource, "/land"),
     (LandDetalisResource, "/land-details/<int:land_id>"),
     (LandsResource, "/lands"),
+    (MeetingResource, "/meeting"),
 )

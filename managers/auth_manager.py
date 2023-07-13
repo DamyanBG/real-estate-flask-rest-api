@@ -19,7 +19,7 @@ class AuthManager:
     def encode_token(user):
         payload = {
             "sub": user.id,
-            "exp": datetime.utcnow() + timedelta(days=100),
+            "exp": datetime.utcnow() + timedelta(days=1),
             "role": user.__class__.__name__,
         }
         return jwt.encode(payload, key=config("JWT_KEY"), algorithm="HS256")
@@ -40,7 +40,7 @@ auth = HTTPTokenAuth(scheme="Bearer")
 
 @auth.verify_token
 def verify_token(token):
-    user_pk, role = AuthManager.decode_token(token)
+    user_id, role = AuthManager.decode_token(token)
     # user = mapper[role](user_pk)
-    user = eval(f"{role}.query.filter_by(pk={user_pk}).first()")
+    user = eval(f"{role}.query.filter_by(id={user_id}).first()")
     return user
