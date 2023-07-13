@@ -1,6 +1,7 @@
 from marshmallow import fields
 
-from schemas.bases  import BaseMessageModel
+from schemas.bases import BaseMessageModel
+
 
 class MessageResponseModel(BaseMessageModel):
     id = fields.Integer(required=True)

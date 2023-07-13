@@ -6,7 +6,9 @@ from models.enums import MeetingStatusType
 class BaseUserSchema(Schema):
     email = fields.Email(required=True)
     password = fields.String(required=True, validate=validate.Length(min=6, max=255))
-    phone_number = fields.Column(required=True, validate=validate.Length(min=6, max=255))
+    phone_number = fields.Column(
+        required=True, validate=validate.Length(min=6, max=255)
+    )
     first_name = fields.String(required=True, validate=validate.Length(min=2, max=255))
     last_name = fields.String(required=True, validate=validate.Length(min=2, max=255))
 
@@ -14,7 +16,9 @@ class BaseUserSchema(Schema):
 class BaseHomeSchema(Schema):
     title = fields.String(required=True, validate=validate.Length(min=2, max=255))
     city = fields.String(required=True, validate=validate.Length(min=2, max=255))
-    neighborhood = fields.String(required=True, validate=validate.Length(min=2, max=255))
+    neighborhood = fields.String(
+        required=True, validate=validate.Length(min=2, max=255)
+    )
     price = fields.String(required=True, validate=validate.Length(min=2, max=255))
     size = fields.String(required=True, validate=validate.Length(min=2, max=255))
     description = fields.String(required=True, validate=validate.Length(min=2, max=255))
