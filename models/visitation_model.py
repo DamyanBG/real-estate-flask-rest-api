@@ -15,6 +15,6 @@ class VisitationModel(db.Model):
     organizator = db.relationship("UserModel")
     home_id = db.Column(db.Integer, db.ForeignKey("homes.id"))
     home = db.relationship("HomeModel")
-    land_id = db.Column(db.Integer, db.ForeignKey("lands.id"))
-    land = db.relationship("LandModel")
+    # land_id = db.Column(db.Integer, db.ForeignKey("lands.id"))
+    # land = db.relationship("LandModel")
     address = db.Column(db.String(255), nullable=False)

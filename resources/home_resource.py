@@ -2,8 +2,11 @@ from flask import request
 from flask_restful import Resource
 
 from managers.home_manager import HomeManager
+from managers.user_manager import UserManager
+from managers.visitations_manager import VisitationManager
+from schemas.response.visitation_response import VisitationResponseSchema
 from schemas.request.home_request import HomeRequestSchema, HomeUpdateRequestSchema
-from schemas.response.home_response import HomeResponseSchema
+from schemas.response.home_response import HomeResponseSchema, HomeDetailsResponseSchema
 from utils.decorators import validate_schema
 
 
@@ -30,3 +33,22 @@ class GetHomeResource(Resource):
         resp_schema = HomeResponseSchema()
         return resp_schema.dump(home)
     
+
+class HomesResource(Resource):
+    def get(self):
+        homes = HomeManager.select_all_homes()
+        resp_schema = HomeResponseSchema()
+        return resp_schema.dump(homes, many=True)
+    
+
+class HomeDetailsResource(Resource):
+    def get(self, home_id):
+        home_details = HomeManager.select_home_details(home_id)
+        home_owner_names = UserManager.select_user_names(home_details.owner_id)
+        home_details.owner_names = home_owner_names
+        home_visitations = VisitationManager.select_home_visitations(home_details.id)
+        home_details_resp_schema = HomeDetailsResponseSchema()
+        home_details = home_details_resp_schema.dump(home_details)
+        visitations_resp_schema = VisitationResponseSchema()
+        visitations = visitations_resp_schema.dump(home_visitations, many=True)
+        return {"home_details": home_details, "visitations": visitations}

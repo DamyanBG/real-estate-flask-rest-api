@@ -6,7 +6,7 @@ from resources.auth_resource import (
     LoginAdmin,
     Login,
 )
-from resources.home_resource import HomeResource, GetHomeResource
+from resources.home_resource import HomeResource, GetHomeResource, HomesResource, HomeDetailsResource
 
 routes = (
     (RegisterUser, "/user/register-user"),
@@ -16,5 +16,7 @@ routes = (
     (Login, "/user/login"),
     (LoginAdmin, "/user/login-admin"),
     (HomeResource, "/home"),
+    (HomesResource, "/homes"),
     (GetHomeResource, "/home/<int:home_id>"),
+    (HomeDetailsResource, "/home-details/<int:home_id>"),
 )
