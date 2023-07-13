@@ -8,7 +8,7 @@ class HomeModel(db.Model):
     title = db.Column(db.String(255), nullable=False)
     city = db.Column(db.String(255), nullable=False)
     neighborhood = db.Column(db.String(255), nullable=False, unique=True)
-    address = db.Column(db.String(20))
+    address = db.Column(db.String(255))
     price = db.Column(db.String(255), nullable=False)
     size = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=False)

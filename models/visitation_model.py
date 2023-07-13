@@ -17,3 +17,4 @@ class VisitationModel(db.Model):
     home = db.relationship("HomeModel")
     land_id = db.Column(db.Integer, db.ForeignKey("lands.id"))
     land = db.relationship("LandModel")
+    address = db.Column(db.String(255), nullable=False)
