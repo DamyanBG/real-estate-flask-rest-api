@@ -1,0 +1,21 @@
+from db import db
+
+
+class HomeModel(db.Model):
+    __tablename__ = "homes"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    city = db.Column(db.String(255), nullable=False)
+    neighborhood = db.Column(db.String(255), nullable=False, unique=True)
+    address = db.Column(db.String(20))
+    price = db.Column(db.String(255), nullable=False)
+    size = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    longitude = db.Column(db.String(255))
+    latitude = db.Column(db.String(255))
+    owner_id = db.Column(db.Integer, db.ForeignKey("users.id", unique=True))
+    owner = db.relationship("UserModel")
+    photo_url = db.Column(db.String(255))
+    home_views = db.Column(db.String(255))
+    
