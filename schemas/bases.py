@@ -21,7 +21,7 @@ class BaseHomeSchema(Schema):
     address = fields.String(validate=validate.Length(min=2, max=255))
     longitude = fields.String(validate=validate.Length(min=2, max=255))
     latitude = fields.String(validate=validate.Length(min=2, max=255))
-    owner_id = fields.Integer(required=True)
+    owner_id = fields.Integer(required=True, allow_none=False)
 
 
 class BaseLandSchema(Schema):

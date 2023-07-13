@@ -1,3 +1,5 @@
+from werkzeug.exceptions import NotFound
+
 from cloud.nextcloud import upload_base64_image
 from models.home_model import HomeModel
 from db import db
@@ -16,4 +18,21 @@ class HomeManager:
     @staticmethod
     def select_home_by_id(home_id):
         home = HomeModel.query.filter_by(id=home_id).first()
+        return home
+    
+    @staticmethod
+    def update_home_by_id(home_data):
+        if "photo" in home_data.keys():
+            base64_photo = home_data.pop("photo")
+            photo_url = upload_base64_image(base64_photo)
+            home_data["photo_url"] = photo_url
+        home_id = home_data["id"]
+        home_q = HomeModel.query.filter_by(id=home_id)
+        home = home_q.first()
+        if not home:
+            raise NotFound("This home does not exist")
+        
+        home_q.update(home_data)
+        db.session.add(home)
+        db.session.commit()
         return home
