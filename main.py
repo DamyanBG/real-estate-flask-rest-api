@@ -3,13 +3,16 @@ from db import db
 
 
 app = create_app()
+app.config["INITIALIZED"] = False 
 
 db.init_app(app)
 
 
-@app.before_first_request
+@app.before_request
 def init_request():
-    db.create_all()
+    if not app.config["INITIALIZED"]:
+        db.create_all()
+        app.config['INITIALIZED'] = True
 
 
 if __name__ == "__main__":

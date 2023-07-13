@@ -18,7 +18,7 @@ class AuthManager:
     @staticmethod
     def encode_token(user):
         payload = {
-            "sub": user.pk,
+            "sub": user.id,
             "exp": datetime.utcnow() + timedelta(days=100),
             "role": user.__class__.__name__,
         }
