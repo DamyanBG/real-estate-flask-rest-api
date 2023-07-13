@@ -52,9 +52,9 @@ class BaseMessageModel(Schema):
 
 class BaseVisitationModel(Schema):
     date = fields.Date(required=True)
-    start_hour = fields.DateTime(required=True)
-    end_hour = fields.DateTime(required=True)
+    start_hour = fields.Time(required=True)
+    end_hour = fields.Time(required=True)
     organizator_id = fields.Integer(required=True)
     address = fields.String(required=True, validate=validate.Length(min=2, max=255))
-    home_id = fields.Integer()
-    land_id = fields.Integer()
+    home_id = fields.Integer(allow_none=True)
+    land_id = fields.Integer(allow_none=True)

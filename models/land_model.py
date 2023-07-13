@@ -12,7 +12,7 @@ class LandModel(db.Model):
     description = db.Column(db.String(255), nullable=False)
     longitude = db.Column(db.String(255))
     latitude = db.Column(db.String(255))
-    owner_id = db.Column(db.Integer, db.ForeignKey("users.id", unique=True))
+    owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     owner = db.relationship("UserModel")
     photo_url = db.Column(db.String(255))
     land_views = db.Column(db.String(255))

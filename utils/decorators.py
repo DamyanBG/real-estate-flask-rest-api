@@ -10,6 +10,7 @@ def validate_schema(schema_name):
             data = request.get_json()
             schema = schema_name()
             errors = schema.validate(data)
+            print(errors)
             if errors:
                 raise BadRequest("You are not sending validate data")
             return func(*args, **kwargs)
