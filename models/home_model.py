@@ -18,4 +18,3 @@ class HomeModel(db.Model):
     owner = db.relationship("UserModel")
     photo_url = db.Column(db.String(255))
     home_views = db.Column(db.String(255))
-    

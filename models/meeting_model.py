@@ -19,4 +19,3 @@ class MeetingModel(db.Model):
     invited_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     invited = db.relationship("UserModel")
     status = db.Column(db.Enum(MeetingStatusType), nullable=False)
-    

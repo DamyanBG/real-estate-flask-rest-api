@@ -16,4 +16,3 @@ class LandModel(db.Model):
     owner = db.relationship("UserModel")
     photo_url = db.Column(db.String(255))
     land_views = db.Column(db.String(255))
-    
