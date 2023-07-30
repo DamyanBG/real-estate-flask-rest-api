@@ -19,3 +19,7 @@ class MeetingModel(db.Model):
     invited_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     invited = db.relationship("UserModel", foreign_keys=[invited_id])
     status = db.Column(db.Enum(MeetingStatusType), nullable=False)
+    home_id = db.Column(db.Integer, db.ForeignKey("homes.id"))
+    home = db.relationship("HomeModel")
+    land_id = db.Column(db.Integer, db.ForeignKey("lands.id"))
+    land = db.relationship("LandModel")

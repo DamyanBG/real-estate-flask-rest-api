@@ -74,4 +74,4 @@ class UserInfo(Resource):
 class Logout(Resource):
     @auth.login_required
     def get(self):
-        return 200
+        return "OK", 200

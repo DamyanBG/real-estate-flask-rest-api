@@ -42,6 +42,8 @@ class BaseMeetingSchema(Schema):
     invitor_id = fields.Integer(required=True)
     invited_id = fields.Integer(required=True)
     status = fields.Enum(MeetingStatusType)
+    home_id = fields.Integer(allow_none=True)
+    land_id = fields.Integer(allow_none=True)
 
 
 class BaseMessageModel(Schema):
