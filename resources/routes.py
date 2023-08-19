@@ -11,6 +11,7 @@ from resources.home_resource import HomeResource, GetHomeResource, HomesResource
 from resources.visitation_resource import VisitationResource
 from resources.land_resource import LandResource, LandsResource, LandDetalisResource
 from resources.meeting_resource import MeetingResource
+from resources.message_resource import MessageResource, ChatHistoryResource, ChatInterlocutorsResource
 
 routes = (
     (Logout, "/logout"),
@@ -29,4 +30,7 @@ routes = (
     (LandDetalisResource, "/land-details/<int:land_id>"),
     (LandsResource, "/lands"),
     (MeetingResource, "/meeting"),
+    (MessageResource, "/message"),
+    (ChatHistoryResource, "/message/<int:interlocutor_id>"),
+    (ChatInterlocutorsResource, "/message/interlocutors"),
 )

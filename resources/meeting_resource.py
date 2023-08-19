@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 
-from managers.auth_manager import  auth
+from managers.auth_manager import auth
 from managers.meeting_manager import MeetingManager
 from utils.decorators import validate_schema
 from schemas.request.meeting_request import MeetingRequestSchema
