@@ -12,6 +12,8 @@ from resources.visitation_resource import VisitationResource
 from resources.land_resource import LandResource, LandsResource, LandDetalisResource
 from resources.meeting_resource import MeetingResource
 from resources.message_resource import MessageResource, ChatHistoryResource, ChatInterlocutorsResource
+from resources.proxy_resource import Proxy
+
 
 routes = (
     (Logout, "/logout"),
@@ -33,4 +35,5 @@ routes = (
     (MessageResource, "/message"),
     (ChatHistoryResource, "/message/<int:interlocutor_id>"),
     (ChatInterlocutorsResource, "/message/interlocutors"),
+    (Proxy, "/proxy"),
 )

@@ -3,6 +3,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
+from flask_socketio import SocketIO
 
 from db import db
 from resources.routes import routes
@@ -15,6 +16,7 @@ class DevApplicationConfiguration:
         f"postgresql://{config('DB_USER')}:{config('DB_PASSWORD')}"
         f"@{config('DB_HOST')}/{config('DB_NAME')}"
     )
+    SECRET_KEY = "secret!"
 
 
 # class TestApplicationConfiguration:
@@ -33,4 +35,5 @@ def create_app(config="config.DevApplicationConfiguration"):
     CORS(app)
     api = Api(app)
     [api.add_resource(*r) for r in routes]
-    return app
+    socketioapp = SocketIO(app, cors_allowed_origins='*')
+    return app, socketioapp
