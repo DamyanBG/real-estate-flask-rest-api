@@ -48,5 +48,11 @@ class HomeManager:
     
     @staticmethod
     def select_all_homes():
-        homes = HomeModel.query.all()
+        homes = HomeModel.query.limit(20).all()
+        return homes
+    
+    @staticmethod
+    def select_paginated_homes(page, rows_per_page):
+        homes = HomeModel.query.limit(rows_per_page).offset(page * rows_per_page).all()
+        print(homes)
         return homes

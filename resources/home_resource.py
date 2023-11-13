@@ -41,6 +41,13 @@ class HomesResource(Resource):
         return resp_schema.dump(homes, many=True)
     
 
+class HomesPaginatedResource(Resource):
+    def get(self, page, rows_per_page):
+        homes = HomeManager.select_paginated_homes(page, rows_per_page)
+        resp_schema = HomeResponseSchema()
+        return resp_schema.dump(homes, many=True)
+    
+
 class HomeDetailsResource(Resource):
     def get(self, home_id):
         home_details = HomeManager.select_home_details(home_id)
