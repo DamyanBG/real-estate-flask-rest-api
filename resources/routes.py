@@ -7,7 +7,7 @@ from resources.auth_resource import (
     Login,
     Logout,
 )
-from resources.home_resource import HomeResource, GetHomeResource, HomesResource, HomeDetailsResource, HomesPaginatedResource
+from resources.home_resource import HomeResource, GetHomeResource, HomesResource, HomeDetailsResource, HomesPaginatedResource, HomesPaginatedCachedResource
 from resources.visitation_resource import VisitationResource
 from resources.land_resource import LandResource, LandsResource, LandDetalisResource
 from resources.meeting_resource import MeetingResource
@@ -23,6 +23,7 @@ routes = (
     (HomeResource, "/home"),
     (HomesResource, "/homes"),
     (HomesPaginatedResource, "/homes/<int:page>/<int:rows_per_page>"),
+    (HomesPaginatedCachedResource, "/cached-homes/<int:page>/<int:rows_per_page>"),
     (GetHomeResource, "/home/<int:home_id>"),
     (HomeDetailsResource, "/home-details/<int:home_id>"),
     (VisitationResource, "/visitation"),
