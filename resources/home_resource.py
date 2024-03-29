@@ -1,5 +1,6 @@
 from flask import request
 from flask_restful import Resource
+from redis_singleton import cache
 
 from managers.home_manager import HomeManager
 from managers.user_manager import UserManager
@@ -35,6 +36,7 @@ class GetHomeResource(Resource):
     
 
 class HomesResource(Resource):
+    @cache.cached(timeout=50)
     def get(self):
         homes = HomeManager.select_all_homes()
         resp_schema = HomeResponseSchema()
@@ -42,6 +44,7 @@ class HomesResource(Resource):
     
 
 class HomesPaginatedResource(Resource):
+    @cache.cached(timeout=50)
     def get(self, page, rows_per_page):
         homes = HomeManager.select_paginated_homes(page, rows_per_page)
         resp_schema = HomeResponseSchema()
