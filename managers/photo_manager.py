@@ -2,6 +2,7 @@
 from db import db
 from cloud.nextcloud import upload_base64_image
 from models.photo_model import TempPhotoModel, HomePhotoModel
+from utils.geo import image_coordinates
 
 
 class TempPhotoManager:
@@ -9,10 +10,17 @@ class TempPhotoManager:
     def create_photo(photo_data):
         base64_photo = photo_data.pop("photo_base64")
         photo_url = upload_base64_image(base64_photo)
+        
         photo_data["photo_url"] = photo_url
         photo = TempPhotoModel(**photo_data)
         db.session.add(photo)
         db.session.commit()
+        try:
+            coordinates = image_coordinates(base64_photo)
+            photo.latitude = str(coordinates["geolocation_lat"])
+            photo.longitude = str(coordinates["geolocation_lng"])
+        except:
+            print("error happened in image coordinates")
         return photo
     
     @staticmethod
