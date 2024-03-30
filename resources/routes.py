@@ -11,6 +11,7 @@ from resources.home_resource import HomeResource, GetHomeResource, HomesResource
 from resources.visitation_resource import VisitationResource
 from resources.land_resource import LandResource, LandsResource, LandDetalisResource
 from resources.meeting_resource import MeetingResource
+from resources.photo_resource import TempPhotoResource
 
 routes = (
     (Logout, "/logout"),
@@ -31,4 +32,5 @@ routes = (
     (LandDetalisResource, "/land-details/<int:land_id>"),
     (LandsResource, "/lands"),
     (MeetingResource, "/meeting"),
+    (TempPhotoResource, "/temp-photo")
 )
