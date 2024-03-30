@@ -24,7 +24,10 @@ class HomeManager:
     
     @staticmethod
     def select_home_details(home_id):
-        home_details = HomeModel.query.filter_by(id=home_id).first()
+        home_q = HomeModel.query.filter_by(id=home_id)
+        home_details = home_q.first()
+        home_details.home_views = str(int(home_details.home_views) + 1)
+        db.session.commit()
         home_visitations = VisitationModel.query.filter_by(home_id=home_details.id).all()
         home_details.home_visitations = home_visitations
         return home_details
