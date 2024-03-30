@@ -20,5 +20,8 @@ class LandManager:
     
     @staticmethod
     def select_land_by_id(land_id):
-        land = LandModel.query.filter_by(id=land_id).first()
+        land_q = LandModel.query.filter_by(id=land_id)
+        land = land_q.first()
+        land.land_views = str(int(land.land_views) + 1)
+        db.session.commit()
         return land

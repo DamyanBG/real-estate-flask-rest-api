@@ -11,3 +11,4 @@ class HomeDetailsResponseSchema(BaseHomeSchema):
     photo_url = fields.String(required=True)
     id = fields.Integer(required=True)
     owner_names = fields.String(required=True)
+    home_views = fields.String(required=True)
