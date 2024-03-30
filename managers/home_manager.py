@@ -2,19 +2,20 @@ from werkzeug.exceptions import NotFound
 
 from cloud.nextcloud import upload_base64_image
 from models.home_model import HomeModel
-from models.user_models import UserModel
 from models.visitation_model import VisitationModel
+from managers.photo_manager import TempPhotoManager, HomePhotoManager
 from db import db
 
 class HomeManager:
     @staticmethod
     def add_home(home_data):
-        base64_photo = home_data.pop("photo")
-        photo_url = upload_base64_image(base64_photo)
-        home_data["photo_url"] = photo_url
+        print(home_data)
+        photo_id = home_data.pop("photo_id")
         home = HomeModel(**home_data)
         db.session.add(home)
         db.session.commit()
+        photo_url = TempPhotoManager.move_temp_photo(photo_id, home.id)
+        home.photo_url= photo_url
         return home
     
     @staticmethod
@@ -30,6 +31,8 @@ class HomeManager:
         db.session.commit()
         home_visitations = VisitationModel.query.filter_by(home_id=home_details.id).all()
         home_details.home_visitations = home_visitations
+        photo_url = HomePhotoManager.select_home_photo(home_details.id)
+        home_details.photo_url = photo_url
         return home_details
     
     @staticmethod

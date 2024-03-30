@@ -4,7 +4,8 @@ from schemas.bases import BaseHomeSchema
 
 
 class HomeRequestSchema(BaseHomeSchema):
-    photo = fields.String(required=True)
+    photo = fields.String()
+    photo_id = fields.String()
 
 
 class HomeUpdateRequestSchema(BaseHomeSchema):
