@@ -18,5 +18,5 @@ class HomeModel(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     owner = db.relationship("UserModel")
     photo_url = db.Column(db.String(255))
-    home_views = db.Column(db.String(255))
+    home_views = db.Column(db.String(255), default="0")
 
