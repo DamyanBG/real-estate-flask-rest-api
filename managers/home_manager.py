@@ -54,11 +54,15 @@ class HomeManager:
     
     @staticmethod
     def select_all_homes():
-        homes = HomeModel.query.limit(20).all()
+        homes = HomeModel.query.all()
+        for home in homes:
+            home.photo_url = HomePhotoManager.select_home_photo(home.id)
         return homes
     
     @staticmethod
     def select_paginated_homes(page, rows_per_page):
         homes = HomeModel.query.limit(rows_per_page).offset(page * rows_per_page).all()
+        for home in homes:
+            home.photo_url = HomePhotoManager.select_home_photo(home.id)
         print(homes)
         return homes
