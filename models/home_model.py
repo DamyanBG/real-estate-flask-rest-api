@@ -17,6 +17,5 @@ class HomeModel(db.Model):
     latitude = db.Column(db.String(255))
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     owner = db.relationship("UserModel")
-    photo_url = db.Column(db.String(255))
     home_views = db.Column(db.String(255), default="0")
 
