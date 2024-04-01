@@ -12,6 +12,7 @@ from resources.visitation_resource import VisitationResource
 from resources.land_resource import LandResource, LandsResource, LandDetalisResource
 from resources.meeting_resource import MeetingResource
 from resources.photo_resource import TempPhotoResource
+from resources.elastic_resource import ElasticResource
 
 routes = (
     (Logout, "/logout"),
@@ -32,5 +33,6 @@ routes = (
     (LandDetalisResource, "/land-details/<int:land_id>"),
     (LandsResource, "/lands"),
     (MeetingResource, "/meeting"),
-    (TempPhotoResource, "/temp-photo")
+    (TempPhotoResource, "/temp-photo"),
+    (ElasticResource, "/homes-suggestion/<int:home_id>"),
 )
