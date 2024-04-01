@@ -4,6 +4,7 @@ from pprint import pprint
 from elasticsearch import Elasticsearch
 from decouple import config
 from managers.home_manager import HomeManager
+from schemas.response.home_response import HomeResponseSchema
 
 class Search:
     def __init__(self) -> None:
@@ -29,8 +30,11 @@ class Search:
     def reindex_homes(self):
         self.create_index()
         homes = HomeManager.select_all_homes()
-        return self.insert_documents(homes)
+        resp_schema = HomeResponseSchema()
+        return self.insert_documents(resp_schema.dump(homes, many=True))
 
 
     def search(self, **query_args):
         return self.es.search(index="real_estate_homes", **query_args)
+
+es = Search()
