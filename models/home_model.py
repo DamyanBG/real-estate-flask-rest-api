@@ -18,4 +18,3 @@ class HomeModel(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     owner = db.relationship("UserModel")
     home_views = db.Column(db.String(255), default="0")
-

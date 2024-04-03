@@ -61,7 +61,6 @@ class UserManager:
             raise BadRequest("Wrong email or password")
 
         return user
-    
 
     @staticmethod
     def login(user_data):

@@ -17,6 +17,7 @@ class DevApplicationConfiguration:
         f"@{config('DB_HOST')}/{config('DB_NAME')}"
     )
 
+
 # class TestApplicationConfiguration:
 #     DEBUG = True
 #     TESTING = True

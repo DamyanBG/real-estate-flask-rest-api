@@ -25,15 +25,14 @@ class HomeResource(Resource):
         home = HomeManager.update_home_by_id(req_body)
         resp_schema = HomeResponseSchema()
         return resp_schema.dump(home)
-        
-    
+
 
 class GetHomeResource(Resource):
     def get(self, home_id):
         home = HomeManager.select_home_by_id(home_id)
         resp_schema = HomeResponseSchema()
         return resp_schema.dump(home)
-    
+
 
 class HomesResource(Resource):
     @cache.cached(timeout=50)
@@ -41,22 +40,22 @@ class HomesResource(Resource):
         homes = HomeManager.select_all_homes()
         resp_schema = HomeResponseSchema()
         return resp_schema.dump(homes, many=True)
-    
+
 
 class HomesPaginatedResource(Resource):
     def get(self, page, rows_per_page):
         homes = HomeManager.select_paginated_homes(page, rows_per_page)
         resp_schema = HomeResponseSchema()
         return resp_schema.dump(homes, many=True)
-    
-    
+
+
 class HomesPaginatedCachedResource(Resource):
     @cache.cached(timeout=50)
     def get(self, page, rows_per_page):
         homes = HomeManager.select_paginated_homes(page, rows_per_page)
         resp_schema = HomeResponseSchema()
         return resp_schema.dump(homes, many=True)
-    
+
 
 class HomeDetailsResource(Resource):
     def get(self, home_id):

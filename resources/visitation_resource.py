@@ -7,6 +7,7 @@ from managers.visitations_manager import VisitationManager
 from schemas.response.visitation_response import VisitationResponseSchema
 from schemas.request.visitation_request import VisitationRequestSchema
 
+
 class VisitationResource(Resource):
     @validate_schema(VisitationRequestSchema)
     def post(self):
