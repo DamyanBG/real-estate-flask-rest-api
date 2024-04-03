@@ -17,13 +17,14 @@ class ElasticResource(Resource):
                             "filter": {
                                 "geo_distance": {
                                     "distance": "1km",
-                                    "pin.location": {"lat": float(home.latitude), "lon": float(home.longitude)},
+                                    "location": {"lat": float(home.latitude), "lon": float(home.longitude)},
                                 }
                             },
                         }
                     }
                 }
             )
+            print("geo_result")
             print(geo_result['hits']['hits'])
             result = es.search(
                 query={
@@ -33,6 +34,7 @@ class ElasticResource(Resource):
                     }
                 }
             )
+            print("match_result")
             print(result["hits"]["hits"])
             if len(result["hits"]["hits"]) == 0:
                 return "No results."
