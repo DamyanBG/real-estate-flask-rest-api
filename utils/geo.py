@@ -6,11 +6,13 @@ from tempfile import TemporaryDirectory
 from uuid import uuid4
 from mimetypes import guess_extension
 
+
 def decimal_coords(coords, ref):
     decimal_degrees = coords[0] + coords[1] / 60 + coords[2] / 3600
-    if ref == "S" or ref =='W' :
+    if ref == "S" or ref == "W":
         decimal_degrees = -decimal_degrees
     return decimal_degrees
+
 
 def image_coordinates(base64_image):
     extension_container, base64_data = base64_image.split(",")
@@ -25,18 +27,22 @@ def image_coordinates(base64_image):
         with open(temp_file_path, "wb") as temp_file:
             temp_file.write(photo_bytes)
 
-        with open(temp_file_path, 'rb') as src:
+        with open(temp_file_path, "rb") as src:
             img = Image(src)
         if img.has_exif:
             try:
                 img.gps_longitude
-                coords = (decimal_coords(img.gps_latitude,
-                        img.gps_latitude_ref),
-                        decimal_coords(img.gps_longitude,
-                        img.gps_longitude_ref))
+                coords = (
+                    decimal_coords(img.gps_latitude, img.gps_latitude_ref),
+                    decimal_coords(img.gps_longitude, img.gps_longitude_ref),
+                )
             except AttributeError:
-                print ('No Coordinates')
+                print("No Coordinates")
         else:
-            print ('The Image has no EXIF information')
-            
-        return({"imageTakenTime":img.datetime_original, "geolocation_lat":coords[0],"geolocation_lng":coords[1]})
+            print("The Image has no EXIF information")
+
+        return {
+            "imageTakenTime": img.datetime_original,
+            "geolocation_lat": coords[0],
+            "geolocation_lng": coords[1],
+        }

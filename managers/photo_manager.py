@@ -1,4 +1,3 @@
-
 from db import db
 from cloud.nextcloud import upload_base64_image
 from models.photo_model import TempPhotoModel, HomePhotoModel
@@ -10,7 +9,7 @@ class TempPhotoManager:
     def create_photo(photo_data):
         base64_photo = photo_data.pop("photo_base64")
         photo_url = upload_base64_image(base64_photo)
-        
+
         photo_data["photo_url"] = photo_url
         photo = TempPhotoModel(**photo_data)
         db.session.add(photo)
@@ -22,7 +21,7 @@ class TempPhotoManager:
         except:
             print("error happened in image coordinates")
         return photo
-    
+
     @staticmethod
     def move_temp_photo(photo_id, home_id):
         temp_photo = TempPhotoModel.query.filter_by(id=photo_id).first()
@@ -47,4 +46,3 @@ class HomePhotoManager:
         else:
             photo_url = None
         return photo_url
-    

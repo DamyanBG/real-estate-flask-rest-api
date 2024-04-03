@@ -7,7 +7,14 @@ from resources.auth_resource import (
     Login,
     Logout,
 )
-from resources.home_resource import HomeResource, GetHomeResource, HomesResource, HomeDetailsResource, HomesPaginatedResource, HomesPaginatedCachedResource
+from resources.home_resource import (
+    HomeResource,
+    GetHomeResource,
+    HomesResource,
+    HomeDetailsResource,
+    HomesPaginatedResource,
+    HomesPaginatedCachedResource,
+)
 from resources.visitation_resource import VisitationResource
 from resources.land_resource import LandResource, LandsResource, LandDetalisResource
 from resources.meeting_resource import MeetingResource

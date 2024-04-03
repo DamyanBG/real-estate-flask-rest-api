@@ -15,4 +15,3 @@ class TempPhotoResource(Resource):
         photo_schema = PhotoResponse()
         respone = photo_schema.dump(photo), 201
         return respone
-    

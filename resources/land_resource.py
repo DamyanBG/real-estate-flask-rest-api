@@ -17,14 +17,14 @@ class LandResource(Resource):
         land = LandManager.create_land(req_body)
         resp_schema = LandResponseSchema()
         return resp_schema.dump(land)
-    
+
 
 class LandsResource(Resource):
     def get(self):
         lands = LandManager.select_all_lands()
         resp_schema = LandResponseSchema()
         return resp_schema.dump(lands, many=True)
-    
+
 
 class LandDetalisResource(Resource):
     def get(self, land_id):

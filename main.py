@@ -14,7 +14,7 @@ def init_request():
     if not app.config["INITIALIZED"]:
         db.create_all()
         es.reindex_homes()
-        app.config['INITIALIZED'] = True
+        app.config["INITIALIZED"] = True
 
 
 if __name__ == "__main__":

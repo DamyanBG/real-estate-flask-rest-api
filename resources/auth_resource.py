@@ -3,10 +3,7 @@ from flask_restful import Resource
 
 from managers.auth_manager import AuthManager, auth
 from managers.user_manager import UserManager
-from schemas.request.user_request import (
-    UserRegisterSchema,
-    UserLoginSchema
-)
+from schemas.request.user_request import UserRegisterSchema, UserLoginSchema
 from schemas.response.user_response import UserResponseSchema
 from utils.decorators import validate_schema
 
@@ -42,7 +39,7 @@ class LoginSeller(Resource):
         user = UserManager.login_seller(request.get_json())
         token = AuthManager.encode_token(user)
         return {"token": token, "id": user.id, "role": "seller"}, 200
-    
+
 
 class Login(Resource):
     @validate_schema(UserLoginSchema)
@@ -52,7 +49,7 @@ class Login(Resource):
         print(role)
         token = AuthManager.encode_token(user)
         return {"token": token, "id": user.id, "role": role}, 200
-    
+
 
 class LoginAdmin(Resource):
     @validate_schema(UserLoginSchema)
