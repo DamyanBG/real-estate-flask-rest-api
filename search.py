@@ -23,33 +23,33 @@ class Search:
         pprint(client_info.body)
 
     def create_index(self):
-        self.es.indices.delete(index="real_estate_homes", ignore_unavailable=True)
-        self.es.indices.create(index="real_estate_homes", body=mapping)
+        self.es.indices.delete(index="coordinates", ignore_unavailable=True)
+        self.es.indices.create(index="coordinates", body=mapping)
 
     def insert_document(self, document):
-        return self.es.index(index="real_estate_homes", body=document)
+        return self.es.index(index="coordinates", body=document)
 
     def insert_documents(self, documents):
         operations = []
         for document in documents:
-            operations.append({"index": {"_index": "real_estate_homes"}})
+            operations.append({"index": {"_index": "coordinates"}})
             operations.append(document)
         return self.es.bulk(operations=operations)
 
     def reindex_homes(self):
         self.create_index()
-        # homes = HomeManager.select_all_homes()
-        # pins = []
-        # for home in homes:
-        #     pin = {
-        #         "location": {"lat": float(home.latitude), "lon": float(home.longitude)}
-        #     }
-        #     pins.append(pin)
+        homes = HomeManager.select_all_homes()
+        pins = []
+        for home in homes:
+            pin = {
+                "pin": {"location": {"lat": float(home.latitude), "lon": float(home.longitude)}}
+            }
+            pins.append(pin)
         
-        # return self.insert_documents(pins)
+        return self.insert_documents(pins)
 
     def search(self, **query_args):
-        return self.es.search(index="real_estate_homes", **query_args)
+        return self.es.search(index="coordinates", **query_args)
 
 
 es = Search()
