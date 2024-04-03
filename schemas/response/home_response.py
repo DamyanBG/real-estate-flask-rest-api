@@ -22,4 +22,4 @@ class PinSchema(Schema):
 class HomeResponseSchema(BaseHomeSchema):
     photo_url = fields.String(required=True)
     id = fields.Integer(required=True)
-    pin = PinSchema()
+    location = LocationSchema()

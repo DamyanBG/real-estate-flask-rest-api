@@ -8,7 +8,9 @@ from schemas.response.home_response import HomeResponseSchema, PinSchema
 
 mapping = {
     "mappings": {
-        "properties": {"pin": {"properties": {"location": {"type": "geo_point"}}}}
+        "properties": {
+            "location": {"type": "geo_point"}
+        }
     }
 }
 
@@ -23,33 +25,31 @@ class Search:
         pprint(client_info.body)
 
     def create_index(self):
-        self.es.indices.delete(index="coordinates", ignore_unavailable=True)
-        self.es.indices.create(index="coordinates", body=mapping)
+        self.es.indices.delete(index="homes_with_location", ignore_unavailable=True)
+        self.es.indices.create(index="homes_with_location", body=mapping)
 
     def insert_document(self, document):
-        return self.es.index(index="coordinates", body=document)
+        return self.es.index(index="homes_with_location", body=document)
 
     def insert_documents(self, documents):
         operations = []
         for document in documents:
-            operations.append({"index": {"_index": "coordinates"}})
+            operations.append({"index": {"_index": "homes_with_location"}})
             operations.append(document)
         return self.es.bulk(operations=operations)
 
     def reindex_homes(self):
         self.create_index()
         homes = HomeManager.select_all_homes()
-        pins = []
         for home in homes:
-            pin = {
-                "pin": {"location": {"lat": float(home.latitude), "lon": float(home.longitude)}}
-            }
-            pins.append(pin)
-        
-        return self.insert_documents(pins)
+            
+            home.location = {"lat": float(home.latitude), "lon": float(home.longitude)}
+            
+        resp_schema = HomeResponseSchema()
+        return self.insert_documents(resp_schema.dump(homes, many=True))
 
     def search(self, **query_args):
-        return self.es.search(index="coordinates", **query_args)
+        return self.es.search(index="homes_with_location", **query_args)
 
 
 es = Search()
