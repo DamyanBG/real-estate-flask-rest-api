@@ -42,7 +42,8 @@ class Search:
         self.create_index()
         homes = HomeManager.select_all_homes()
         for home in homes:
-            
+            if not home.latitude or home.longitude:
+                continue
             home.location = {"lat": float(home.latitude), "lon": float(home.longitude)}
             
         resp_schema = HomeResponseSchema()
