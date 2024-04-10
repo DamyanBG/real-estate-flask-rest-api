@@ -13,7 +13,7 @@ db.init_app(app)
 def init_request():
     if not app.config["INITIALIZED"]:
         db.create_all()
-        es.reindex_homes()
+        # es.reindex_homes()
         app.config["INITIALIZED"] = True
 
 
