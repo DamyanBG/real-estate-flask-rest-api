@@ -20,6 +20,7 @@ from resources.land_resource import LandResource, LandsResource, LandDetalisReso
 from resources.meeting_resource import MeetingResource
 from resources.photo_resource import TempPhotoResource
 from resources.elastic_resource import ElasticResource
+from resources.pubsub_resource import PostRequestHandler
 
 routes = (
     (Logout, "/logout"),
@@ -42,4 +43,5 @@ routes = (
     (MeetingResource, "/meeting"),
     (TempPhotoResource, "/temp-photo"),
     (ElasticResource, "/homes-suggestion/<int:home_id>"),
+    (PostRequestHandler, "/pubsub")
 )
