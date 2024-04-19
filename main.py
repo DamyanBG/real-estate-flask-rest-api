@@ -1,6 +1,6 @@
 from config import create_app
 from db import db
-from search import es
+# from search import es
 
 
 app = create_app()
