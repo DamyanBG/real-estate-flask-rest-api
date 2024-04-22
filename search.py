@@ -17,8 +17,13 @@ mapping = {
 
 class Search:
     def __init__(self) -> None:
+        # Cloud confguration
+        # self.es = Elasticsearch(
+        #     api_key=config("ELASTIC_API_KEY"), cloud_id=config("ELASTIC_CLOUD_ID")
+        # )
+        # Container config without pass and keys
         self.es = Elasticsearch(
-            api_key=config("ELASTIC_API_KEY"), cloud_id=config("ELASTIC_CLOUD_ID")
+            config("ELASTIC_HOST")
         )
         client_info = self.es.info()
         print("Connected to Elasticsearch!")
@@ -41,13 +46,15 @@ class Search:
     def reindex_homes(self):
         self.create_index()
         homes = HomeManager.select_all_homes()
+        pins = []
         for home in homes:
-            if not home.latitude or home.longitude:
-                continue
-            home.location = {"lat": float(home.latitude), "lon": float(home.longitude)}
-            
-        resp_schema = HomeResponseSchema()
-        return self.insert_documents(resp_schema.dump(homes, many=True))
+            if home.latitude and home.longitude:
+                pin = {
+                    "pin": {"location": {"lat": float(home.latitude), "lon": float(home.longitude)}}
+                }
+                pins.append(pin)
+        
+        return self.insert_documents(pins)
 
     def search(self, **query_args):
         return self.es.search(index="homes_with_location", **query_args)
