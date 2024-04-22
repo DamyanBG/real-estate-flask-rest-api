@@ -7,6 +7,7 @@ from schemas.response.home_response import HomeResponseSchema
 
 class ElasticResource(Resource):
     def get(self, home_id):
+        print(home_id)
         home = HomeManager.select_home_by_id(home_id)
         try:
             geo_result = es.search(
@@ -16,16 +17,16 @@ class ElasticResource(Resource):
                             "must": {"match_all": {}},
                             "filter": {
                                 "geo_distance": {
-                                    "distance": "100km",
-                                    "pin.location": {"lat": float(home.latitude), "lon": float(home.longitude)},
+                                    "distance": "2000km",
+                                    "pin.location": {"lat": float(home.latitude), "lon": float(home.latitude)},
                                 }
                             },
                         }
                     }
                 }
             )
-            print("geo_result")
-            print(geo_result['hits']['hits'])
+            print("geo_query")
+            print(geo_result)
             result = es.search(
                 query={
                     "bool": {
@@ -34,7 +35,6 @@ class ElasticResource(Resource):
                     }
                 }
             )
-            print("match_result")
             print(result["hits"]["hits"])
             if len(result["hits"]["hits"]) == 0:
                 return "No results."
