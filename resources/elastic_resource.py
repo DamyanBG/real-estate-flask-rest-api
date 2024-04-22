@@ -7,7 +7,6 @@ from schemas.response.home_response import HomeResponseSchema
 
 class ElasticResource(Resource):
     def get(self, home_id):
-        print(home_id)
         home = HomeManager.select_home_by_id(home_id)
         try:
             if home.latitude and home.longitude:
@@ -19,18 +18,20 @@ class ElasticResource(Resource):
                                 "filter": {
                                     "geo_distance": {
                                         "distance": "3km",
-                                        "pin.location": {"lat": float(home.latitude), "lon": float(home.longitude)},
+                                        "pin.location": {
+                                            "lat": float(home.latitude),
+                                            "lon": float(home.longitude),
+                                        },
                                     }
                                 },
                             }
                         }
                     }
                 )
-                print("geo_result")
-                print(geo_result)
                 if len(geo_result["hits"]["hits"]) > 0:
                     suggested_homes = [
-                        suggested_home["_source"] for suggested_home in geo_result["hits"]["hits"]
+                        suggested_home["_source"]
+                        for suggested_home in geo_result["hits"]["hits"]
                     ]
                     resp_schema = HomeResponseSchema()
                     return resp_schema.dump(suggested_homes, many=True), 200
@@ -42,8 +43,6 @@ class ElasticResource(Resource):
                     }
                 }
             )
-            print("match_result")
-            print(result["hits"]["hits"])
             if len(result["hits"]["hits"]) == 0:
                 return "No results."
             suggested_homes = [
