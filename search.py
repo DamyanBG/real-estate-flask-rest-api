@@ -1,6 +1,7 @@
 from pprint import pprint
 
 from elasticsearch import Elasticsearch
+from elasticsearch.exceptions import ConnectionError
 from decouple import config
 
 from managers.home_manager import HomeManager
@@ -16,16 +17,22 @@ mapping = {
 
 
 class Search:
+    _connected: bool = True
+
     def __init__(self) -> None:
-        # Cloud confguration
-        # self.es = Elasticsearch(
-        #     api_key=config("ELASTIC_API_KEY"), cloud_id=config("ELASTIC_CLOUD_ID")
-        # )
-        # Container config without pass and keys
-        self.es = Elasticsearch(config("ELASTIC_HOST"))
-        client_info = self.es.info()
-        print("Connected to Elasticsearch!")
-        pprint(client_info.body)
+        try:
+            # Cloud confguration
+            # self.es = Elasticsearch(
+            #     api_key=config("ELASTIC_API_KEY"), cloud_id=config("ELASTIC_CLOUD_ID")
+            # )
+            # Container config without pass and keys
+            self.es = Elasticsearch(config("ELASTIC_HOST"))
+            client_info = self.es.info()
+            print("Connected to Elasticsearch!")
+            pprint(client_info.body)
+        except ConnectionError:
+            self._connected = False
+            print("Can't connect")
 
     def create_index(self):
         self.es.indices.delete(index="real_estate_homes", ignore_unavailable=True)
@@ -42,6 +49,8 @@ class Search:
         return self.es.bulk(operations=operations)
 
     def reindex_homes(self):
+        if not self._connected:
+            return
         self.create_index()
         homes = HomeManager.select_all_homes()
         for home in homes:
@@ -59,7 +68,9 @@ class Search:
         return self.insert_documents(resp)
 
     def search(self, **query_args):
-        return self.es.search(index="real_estate_homes", **query_args)
+        if self._connected:
+            return self.es.search(index="real_estate_homes", **query_args)
+        return None
 
 
 es = Search()
