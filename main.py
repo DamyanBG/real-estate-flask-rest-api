@@ -1,6 +1,6 @@
 from config import create_app
 from db import db
-# from search import es
+from search import es
 
 
 app = create_app()
@@ -13,7 +13,10 @@ db.init_app(app)
 def init_request():
     if not app.config["INITIALIZED"]:
         db.create_all()
-        # es.reindex_homes()
+        try:
+            es.reindex_homes()
+        except Exception as e:
+            print(e)
         app.config["INITIALIZED"] = True
 
 
