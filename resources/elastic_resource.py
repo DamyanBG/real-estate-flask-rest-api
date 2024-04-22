@@ -10,23 +10,30 @@ class ElasticResource(Resource):
         print(home_id)
         home = HomeManager.select_home_by_id(home_id)
         try:
-            geo_result = es.search(
-                body={
-                    "query": {
-                        "bool": {
-                            "must": {"match_all": {}},
-                            "filter": {
-                                "geo_distance": {
-                                    "distance": "2000km",
-                                    "pin.location": {"lat": float(home.latitude), "lon": float(home.latitude)},
-                                }
-                            },
+            if home.latitude and home.longitude:
+                geo_result = es.search(
+                    body={
+                        "query": {
+                            "bool": {
+                                "must": {"match_all": {}},
+                                "filter": {
+                                    "geo_distance": {
+                                        "distance": "3km",
+                                        "pin.location": {"lat": float(home.latitude), "lon": float(home.longitude)},
+                                    }
+                                },
+                            }
                         }
                     }
-                }
-            )
-            print("geo_query")
-            print(geo_result)
+                )
+                print("geo_result")
+                print(geo_result)
+                if len(geo_result["hits"]["hits"]) > 0:
+                    suggested_homes = [
+                        suggested_home["_source"] for suggested_home in geo_result["hits"]["hits"]
+                    ]
+                    resp_schema = HomeResponseSchema()
+                    return resp_schema.dump(suggested_homes, many=True), 200
             result = es.search(
                 query={
                     "bool": {
@@ -35,6 +42,7 @@ class ElasticResource(Resource):
                     }
                 }
             )
+            print("match_result")
             print(result["hits"]["hits"])
             if len(result["hits"]["hits"]) == 0:
                 return "No results."

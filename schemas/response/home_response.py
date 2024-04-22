@@ -15,11 +15,11 @@ class LocationSchema(fields.Dict):
     lon = fields.Float(required=True)
 
 
-class PinSchema(Schema):
+class PinSchema(fields.Dict):
     location = LocationSchema()
 
 
 class HomeResponseSchema(BaseHomeSchema):
     photo_url = fields.String(required=True)
     id = fields.Integer(required=True)
-    location = LocationSchema()
+    pin = PinSchema()

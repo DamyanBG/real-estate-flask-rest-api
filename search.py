@@ -7,7 +7,10 @@ from schemas.response.home_response import HomeResponseSchema, PinSchema
 
 mapping = {
     "mappings": {
-        "properties": {"pin": {"properties": {"location": {"type": "geo_point"}}}}
+        "properties": {
+            "pin": {"properties": {"location": {"type": "geo_point"}}},
+
+        }
     }
 }
 
@@ -46,12 +49,23 @@ class Search:
         pins = []
         for home in homes:
             if home.latitude and home.longitude:
-                pin = {
-                    "pin": {"location": {"lat": float(home.latitude), "lon": float(home.longitude)}}
-                }
-                pins.append(pin)
-        
-        return self.insert_documents(pins)
+                # pin = {
+                #     "pin": {"location": {"lat": float(home.latitude), "lon": float(home.longitude)}}
+                # }
+                # pins.append(pin)
+                home.pin = {"location": {"lat": float(home.latitude), "lon": float(home.longitude)}}
+            else: 
+                home.pin = None
+        for home in homes:
+            if home.pin:
+                print(home)
+                print(home.pin)
+        resp_schema = HomeResponseSchema()
+        print("before resp")
+        resp = resp_schema.dump(homes, many=True)
+        print("resp")
+        print(resp)
+        return self.insert_documents(resp)
 
     def search(self, **query_args):
         return self.es.search(index="real_estate_homes", **query_args)
