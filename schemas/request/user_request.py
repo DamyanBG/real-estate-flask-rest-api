@@ -1,7 +1,6 @@
 from marshmallow import fields, validate
 
 from schemas.bases import BaseUserSchema
-from models.enums import RoleType
 
 
 class UserRegisterSchema(BaseUserSchema):
@@ -10,7 +9,6 @@ class UserRegisterSchema(BaseUserSchema):
     )
     first_name = fields.String(required=True, validate=validate.Length(min=2, max=255))
     last_name = fields.String(required=True, validate=validate.Length(min=2, max=255))
-    role = fields.Enum(RoleType)
 
 
 class UserLoginSchema(BaseUserSchema):
