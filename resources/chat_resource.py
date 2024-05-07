@@ -1,9 +1,10 @@
+from flask import request
 from flask_restful import Resource
 
 from managers.chat_manager import ChatManager
 from managers.user_manager import UserManager
 from managers.auth_manager import auth
-from schemas.response.message_response import ChatHistoryResponseSchema
+from schemas.response.message_response import ChatHistoryResponseSchema, MessageResponseSchema
 
 
 class ChatHistory(Resource):
@@ -23,3 +24,10 @@ class ChatHistory(Resource):
         print(resp)
         return resp
     
+    @auth.login_required
+    def post(self, chat_partner_id):
+        current_user = auth.current_user()
+        req_body = request.get_json()
+        chat_message = ChatManager.create_message(req_body["text"], current_user.id, chat_partner_id)
+        resp_schema = MessageResponseSchema()
+        return resp_schema.dump(chat_message), 201
