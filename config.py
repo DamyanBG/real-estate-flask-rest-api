@@ -3,6 +3,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
+from flask_socketio import SocketIO
 from redis_singleton import cache
 
 from db import db
@@ -45,4 +46,5 @@ def create_app(config="config.DevApplicationConfiguration"):
     CORS(app)
     api = Api(app)
     [api.add_resource(*r) for r in routes]
-    return app
+    socketio_app = SocketIO(app, cors_allowed_origins="*") 
+    return app, socketio_app
