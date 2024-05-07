@@ -48,7 +48,7 @@ class Login(Resource):
         role = user.role.value
         print(role)
         token = AuthManager.encode_token(user)
-        return {"token": token, "id": user.id, "role": role}, 200
+        return {"token": token, "id": user.id, "role": role, "first_name": user.first_name, "last_name": user.last_name}, 200
 
 
 class LoginAdmin(Resource):
