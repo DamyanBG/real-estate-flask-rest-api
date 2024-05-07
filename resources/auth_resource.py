@@ -36,7 +36,8 @@ class RegisterSeller(Resource):
 class LoginSeller(Resource):
     @validate_schema(UserLoginSchema)
     def post(self):
-        user = UserManager.login_seller(request.get_json())
+        req_body = request.get_json()
+        user = UserManager.login_seller(req_body)
         token = AuthManager.encode_token(user)
         return {"token": token, "id": user.id, "role": "seller"}, 200
 
@@ -44,11 +45,11 @@ class LoginSeller(Resource):
 class Login(Resource):
     @validate_schema(UserLoginSchema)
     def post(self):
-        user = UserManager.login(request.get_json())
+        req_body = request.get_json()
+        user = UserManager.login(req_body)
         role = user.role.value
-        print(role)
         token = AuthManager.encode_token(user)
-        return {"token": token, "id": user.id, "role": role}, 200
+        return {"token": token, "id": user.id, "role": role, "first_name": user.first_name, "last_name": user.last_name}, 200
 
 
 class LoginAdmin(Resource):

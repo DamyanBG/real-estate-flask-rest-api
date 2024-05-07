@@ -21,6 +21,7 @@ from resources.meeting_resource import MeetingResource
 from resources.photo_resource import TempPhotoResource
 from resources.elastic_resource import ElasticResource
 from resources.pubsub_resource import PostRequestHandler
+from resources.chat_resource import ChatHistory
 
 routes = (
     (Logout, "/logout"),
@@ -43,5 +44,6 @@ routes = (
     (MeetingResource, "/meeting"),
     (TempPhotoResource, "/temp-photo"),
     (ElasticResource, "/homes-suggestion/<int:home_id>"),
-    (PostRequestHandler, "/pubsub")
+    (PostRequestHandler, "/pubsub"),
+    (ChatHistory, "/chat-history/<int:chat_partner_id>"),
 )
