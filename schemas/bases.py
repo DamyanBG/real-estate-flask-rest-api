@@ -49,7 +49,7 @@ class BaseMeetingSchema(Schema):
     land_id = fields.Integer(allow_none=True)
 
 
-class BaseMessageModel(Schema):
+class BaseMessageSchema(Schema):
     sender_id = fields.Integer(required=True)
     receiver_id = fields.Integer(required=True)
     text = fields.String(required=True, validate=validate.Length(min=1, max=255))

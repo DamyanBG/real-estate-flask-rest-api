@@ -103,3 +103,12 @@ class UserManager:
         user = UserModel.query.filter_by(id=user_id).first()
         user_names = f"{user.first_name} {user.last_name}"
         return user_names
+    
+    @staticmethod
+    def select_user_names_as_dict(user_id):
+        user = UserModel.query.filter_by(id=user_id).first()
+        user_names = {
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+        }
+        return user_names

@@ -1,5 +1,5 @@
-from schemas.bases import BaseMessageModel
+from schemas.bases import BaseMessageSchema
 
 
-class MessageRequestModel(BaseMessageModel):
+class MessageRequestModel(BaseMessageSchema):
     pass
