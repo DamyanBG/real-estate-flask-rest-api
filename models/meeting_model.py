@@ -18,7 +18,7 @@ class MeetingModel(db.Model):
     invitor = db.relationship("UserModel", foreign_keys=[invitor_id])
     invited_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     invited = db.relationship("UserModel", foreign_keys=[invited_id])
-    status = db.Column(db.Enum(MeetingStatusType), nullable=False)
+    status = db.Column(db.Enum(MeetingStatusType), nullable=False, default=MeetingStatusType.pending)
     home_id = db.Column(db.Integer, db.ForeignKey("homes.id"))
     home = db.relationship("HomeModel")
     land_id = db.Column(db.Integer, db.ForeignKey("lands.id"))
