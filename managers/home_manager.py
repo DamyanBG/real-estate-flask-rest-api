@@ -69,3 +69,8 @@ class HomeManager:
             home.photo_url = HomePhotoManager.select_home_photo(home.id)
         print(homes)
         return homes
+    
+    @staticmethod
+    def select_home_title(home_id):
+        home_title = db.session.query(HomeModel.title).filter_by(id=home_id).scalar()
+        return home_title
