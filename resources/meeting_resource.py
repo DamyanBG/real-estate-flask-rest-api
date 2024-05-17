@@ -23,6 +23,8 @@ class MeetingResource(Resource):
     def get(self):
         current_user = auth.current_user()
         user_meetings = MeetingManager.select_meetings_by_user(current_user.id)
+        user_homes_with_meetings = MeetingManager.select_user_homes_with_meetings(current_user.id)
+        print(user_homes_with_meetings)
         for user_meeting in user_meetings:
             print(user_meeting.home_id)
             home_title = HomeManager.select_home_title(user_meeting.home_id)
