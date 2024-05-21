@@ -5,9 +5,9 @@ from managers.auth_manager import auth
 from managers.meeting_manager import MeetingManager
 from managers.user_manager import UserManager
 from managers.home_manager import HomeManager
-from utils.decorators import validate_schema
 from schemas.request.meeting_request import MeetingRequestSchema
-from schemas.response.meeting_response import MeetingResponseSchema
+from schemas.response.meeting_response import MeetingResponseSchema, HomeWithMeetingsRespSchema
+from utils.decorators import validate_schema
 
 
 class MeetingResource(Resource):
@@ -22,15 +22,7 @@ class MeetingResource(Resource):
     @auth.login_required
     def get(self):
         current_user = auth.current_user()
-        user_meetings = MeetingManager.select_meetings_by_user(current_user.id)
         user_homes_with_meetings = MeetingManager.select_user_homes_with_meetings(current_user.id)
         print(user_homes_with_meetings)
-        for user_meeting in user_meetings:
-            print(user_meeting.home_id)
-            home_title = HomeManager.select_home_title(user_meeting.home_id)
-            print(home_title)
-            meeting_partner_id = user_meeting.invited_id if user_meeting.invited_id != current_user.id else user_meeting.invitor_id
-            user_meeting.meeting_partner_names = UserManager.select_user_names(meeting_partner_id)
-            user_meeting.home_title = home_title
-        resp_schema = MeetingResponseSchema()
-        return resp_schema.dump(user_meetings, many=True), 200
+        resp_schema = HomeWithMeetingsRespSchema()
+        return resp_schema.dump(user_homes_with_meetings, many=True), 200

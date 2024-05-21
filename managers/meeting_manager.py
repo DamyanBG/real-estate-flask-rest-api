@@ -27,14 +27,24 @@ class MeetingManager:
                 h.title,
                 (SELECT json_agg(
                     json_build_object(
-                        'id', id,
-                        'date', date,
-                        'start_time', start_time,
-                        'end_time', end_time
+                        'id', nm.id,
+                        'date', nm.date,
+                        'start_time', nm.start_time,
+                        'end_time', nm.end_time,
+                        'meeting_partner_names', (
+                            SELECT CONCAT(u.first_name, ' ', u.last_name)
+                            FROM users u
+                            WHERE u.id = (
+                                CASE
+                                    WHEN :user_id = nm.invited_id THEN nm.invitor_id
+                                    ELSE nm.invited_id
+                                END
+                            )
+                        )
                     )
                 ) 
-                    FROM meetings
-                    WHERE home_id = h.id) AS home_meetings
+                    FROM meetings nm
+                    WHERE nm.home_id = h.id) AS home_meetings
             FROM homes h
             JOIN meetings m
             ON h.id = m.home_id
